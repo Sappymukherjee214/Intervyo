@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import {Link, useNavigate} from "react-router-dom"
-
+import { Link, useNavigate } from "react-router-dom"
 import logo from "../assets/intervyologo.png"
 
 
@@ -12,7 +11,7 @@ export default function LandingPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const {token} = useSelector((state) => state.auth);
+  const { token } = useSelector((state) => state.auth);
   const { user, isAuthenticated } = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
@@ -21,10 +20,10 @@ export default function LandingPage() {
     const handleMouseMove = (e) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
-    
+
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('mousemove', handleMouseMove);
-    
+
     // Intersection Observer for scroll animations
     const observer = new IntersectionObserver(
       (entries) => {
@@ -201,9 +200,9 @@ export default function LandingPage() {
         }
       `}</style>
 
-      {/* Animated Cursor Effect - Hidden on mobile */}
-      <div 
-        className="fixed w-96 h-96 rounded-full pointer-events-none z-0 mix-blend-screen hidden md:block"
+      {/* Animated Cursor Effect */}
+      <div
+        className="fixed w-96 h-96 rounded-full pointer-events-none z-0 mix-blend-screen"
         style={{
           background: 'radial-gradient(circle, rgba(168,85,247,0.15) 0%, transparent 70%)',
           left: mousePosition.x - 192,
@@ -477,9 +476,8 @@ export default function LandingPage() {
                 key={index}
                 id={`plan-${index}`}
                 data-animate
-                className={`scale-in ${isVisible[`plan-${index}`] ? 'visible' : ''} relative bg-white/5 backdrop-blur-lg rounded-2xl p-6 md:p-8 border ${
-                  plan.popular ? 'border-purple-500 shadow-2xl shadow-purple-500/20' : 'border-white/10'
-                } hover:border-purple-500/50 transition`}
+                className={`scale-in ${isVisible[`plan-${index}`] ? 'visible' : ''} relative bg-white/5 backdrop-blur-lg rounded-2xl p-8 border ${plan.popular ? 'border-purple-500 shadow-2xl shadow-purple-500/20' : 'border-white/10'
+                  } hover:border-purple-500/50 transition`}
                 style={{ transitionDelay: `${index * 0.15}s` }}
               >
                 {plan.popular && (
@@ -507,7 +505,7 @@ export default function LandingPage() {
                   plan.popular
                     ? 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700'
                     : 'bg-white/10 hover:bg-white/20 border border-white/20'
-                }`}>
+                  }`}>
                   {plan.buttonText}
                 </button>
               </div>
@@ -542,7 +540,7 @@ export default function LandingPage() {
               </div>
               <p className="text-gray-400 text-sm md:text-base">Master your tech interviews with AI </p>
             </div>
-            
+
             <div>
               <h4 className="font-bold mb-4">Product</h4>
               <ul className="space-y-2 text-gray-400">
@@ -563,7 +561,7 @@ export default function LandingPage() {
                 </li>
               </ul>
             </div>
-            
+
             <div>
               <h4 className="font-bold mb-2 md:mb-4">Company</h4>
               <ul className="space-y-1 md:space-y-2 text-gray-400">
@@ -572,7 +570,7 @@ export default function LandingPage() {
                 <li><a href="#" className="hover:text-white transition text-sm md:text-base">Careers</a></li>
               </ul>
             </div>
-            
+
             <div>
               <h4 className="font-bold mb-2 md:mb-4">Legal</h4>
               <ul className="space-y-1 md:space-y-2 text-gray-400">
@@ -582,7 +580,7 @@ export default function LandingPage() {
               </ul>
             </div>
           </div>
-          
+
           <div className="border-t border-white/10 pt-8 text-center text-gray-400">
             <p>&copy; {new Date().getFullYear()} InterviewPro. All rights reserved.</p>
           </div>

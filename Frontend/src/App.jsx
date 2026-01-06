@@ -42,7 +42,7 @@ function App() {
             <ProtectedRoute>
               <Dashboard />
             </ProtectedRoute>
-          } 
+          }
         />
         <Route path="/leaderboard" element={<Leaderboard />} />
         <Route path="/history" element={<ReviewHistory />} />
@@ -50,49 +50,37 @@ function App() {
         <Route path='/settings' element={<Settings />} />
         <Route path="/blog" element={<BlogPlatform />} />
         <Route path='/achievements' element={<Achievements />} />
-        <Route 
-          path="/analytics" 
+        <Route
+          path="/interview-setup"
           element={
             <ProtectedRoute>
-              <Analytics />
+              <InterviewSetup />
             </ProtectedRoute>
-          } 
+          }
         />
-        <Route 
-        path="/interview-setup" 
-        element={
-          <ProtectedRoute>
-            <InterviewSetup />
-          </ProtectedRoute>
-        } 
-      />
-        
-        <Route 
-          path="/interview/:interviewId" 
+
+        {/* UPDATED: Use InterviewWrapper instead of InterviewRoom directly */}
+        <Route
+          path="/interview/:interviewId"
           element={
             <ProtectedRoute>
               <InterviewWrapper />
             </ProtectedRoute>
-          } 
+          }
         />
         <Route path="/interview-room/:interviewId" element={<InterviewRoom />} />
-        
-        <Route 
-          path="/results/:interviewId" 
+
+        <Route
+          path="/results/:interviewId"
           element={
             <ProtectedRoute>
               <Results />
             </ProtectedRoute>
-          } 
+          }
         />
-        
-        <Route path="*" element={<NotFound />} />
       </Routes>
 
-      {/* Add ScrollToTop first with higher z-index */}
       <ScrollToTop />
-      
-      {/* Then AIChatbot with lower z-index */}
       <AIChatbot defaultContext="general" />
     </>
   );
