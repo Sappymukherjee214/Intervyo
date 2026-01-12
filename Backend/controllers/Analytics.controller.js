@@ -124,8 +124,12 @@ export const getUserAnalytics = async (req, res) => {
       }
     });
   } catch (error) {
-    console.error('Analytics error:', error);
-    res.status(500).json({ success: false, message: 'Failed to fetch analytics', error: error.message });
+    console.error("Analytics error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch analytics",
+      error: error.message,
+    });
   }
 };
 
@@ -175,7 +179,11 @@ export const getSkillRadar = async (req, res) => {
 
     res.json({ success: true, data: radarData });
   } catch (error) {
-    res.status(500).json({ success: false, message: 'Failed to fetch skill data', error: error.message });
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch skill data",
+      error: error.message,
+    });
   }
 };
 
