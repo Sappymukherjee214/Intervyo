@@ -1,5 +1,5 @@
+// const BASE_URL = "http://localhost:5000/api";
 const BASE_URL = 'https://intervyo.onrender.com/api';
-// const BASE_URL = 'http://localhost:5000/api';
 
 export const authEndpoints = {
   SEND_OTP_API: `${BASE_URL}/auth/send-otp`,
@@ -9,6 +9,9 @@ export const authEndpoints = {
   GET_CURRENT_USER_API: `${BASE_URL}/auth/me`,
 };
 
+export const contactEndpoints = {
+  CONTACT_US_API: `${BASE_URL}/contact`,
+};
 
 export const profileEndpoints = {
   GET_PROFILE_API: `${BASE_URL}/profile`,
@@ -37,15 +40,23 @@ export const dashboardEndpoints = {
 
 export const interviewEndpoints = {
   // Match your backend routes
-  CREATE_INTERVIEW_API: BASE_URL + '/interview/create',
-  START_INTERVIEW_API: BASE_URL + '/interview/:interviewId/start',
-  SUBMIT_ANSWER_API: BASE_URL + '/interview/:interviewId/answer',
-  GET_HINT_API: BASE_URL + '/interview/:interviewId/hint/:questionId',
-  ANALYZE_EMOTION_API: BASE_URL + '/interview/:interviewId/emotion',
-  COMPLETE_INTERVIEW_API: BASE_URL + '/interview/:interviewId/complete',
+  CREATE_INTERVIEW_API: BASE_URL + "/interview/create",
+  START_INTERVIEW_API: BASE_URL + "/interview/:interviewId/start",
+  SUBMIT_ANSWER_API: BASE_URL + "/interview/:interviewId/answer",
+  GET_HINT_API: BASE_URL + "/interview/:interviewId/hint/:questionId",
+  ANALYZE_EMOTION_API: BASE_URL + "/interview/:interviewId/emotion",
+  COMPLETE_INTERVIEW_API: BASE_URL + "/interview/:interviewId/complete",
   GET_RESULTS_API: `${BASE_URL}/interview/:interviewId/results`,
   // or if you have a separate detailed results endpoint:
   GET_DETAILED_RESULTS_API: `${BASE_URL}/interview/:interviewId/detailed-results`,
-  GET_HISTORY_API: BASE_URL + '/interview/history',
-  START_CONVERSATION_API : BASE_URL + '/interview/:interviewId/start-conversation'
+  GET_HISTORY_API: BASE_URL + "/interview/history",
+  START_CONVERSATION_API:
+    BASE_URL + "/interview/:interviewId/start-conversation",
+};
+
+export const careerEndpoints = {
+  GET_JOBS_API: `${BASE_URL}/career/jobs`,
+  GET_JOB_API: `${BASE_URL}/career/jobs/:id`,
+  GET_RESOURCES_API: `${BASE_URL}/career/resources`,
+  GET_FEATURED_API: `${BASE_URL}/career/featured`,
 };
