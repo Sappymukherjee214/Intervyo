@@ -12,15 +12,15 @@ Intervyo is built for realism, accountability, and measurable improvement.
 
 Most interview preparation platforms fail because they:
 
-- Ask generic questions  
-- Give fluffy, non-actionable feedback  
-- Do not simulate real interview pressure  
+- Ask generic questions
+- Give fluffy, non-actionable feedback
+- Do not simulate real interview pressure
 
 Intervyo fixes this by:
 
-- Running structured interviews  
-- Evaluating responses against defined criteria  
-- Giving actionable feedback, not motivational nonsense  
+- Running structured interviews
+- Evaluating responses against defined criteria
+- Giving actionable feedback, not motivational nonsense
 
 If it doesn’t help you perform better in a real interview, it doesn’t belong here.
 
@@ -29,33 +29,49 @@ If it doesn’t help you perform better in a real interview, it doesn’t belong
 ## 🧠 Core Features
 
 ### 🎤 AI Interview Simulation
-- Technical, behavioral, and mixed interview modes  
-- Timed questions to simulate real interview pressure  
-- Adaptive follow-up questions based on candidate responses  
+
+- Technical, behavioral, and mixed interview modes
+- Timed questions to simulate real interview pressure
+- Adaptive follow-up questions based on candidate responses
 - **New:** Real-time Body Language Coach (Eye contact & Posture tracking) 👁️
 
 ### 📊 Smart Evaluation & Feedback
-- Communication clarity analysis  
-- Technical correctness scoring  
-- Confidence & structure assessment  
-- Strengths, weaknesses, and improvement suggestions  
+
+- Communication clarity analysis
+- Technical correctness scoring
+- Confidence & structure assessment
+- Strengths, weaknesses, and improvement suggestions
 - Live Confidence HUD during interviews 💯
 
 ### 📁 Interview History & Progress Tracking
-- Store past interviews  
-- Compare performance over time  
-- Identify recurring weaknesses  
+
+- Store past interviews
+- Compare performance over time
+- Identify recurring weaknesses
+
+### 📊 Personalized User Progress Dashboard ⭐ NEW
+
+- **Comprehensive Progress Metrics**: Track total questions attempted, completion rate, time spent practicing, and average scores
+- **Weekly Activity Visualization**: 7-day activity chart with daily interview completions and score trends
+- **Category-Based Tracking**: Progress breakdown by interview type (technical, behavioral, coding, system-design)
+- **Role/Domain Progress**: Performance tracking across different job roles and specializations
+- **Saved Questions**: Review questions you skipped for targeted practice sessions
+- **Goals & Targets**: Visual progress bars for weekly goals, score targets, streaks, and milestones
+- **Recent Performance**: Quick overview of last 10 interviews with scores and dates
+- **Route:** `/progress` (accessible from dashboard "My Progress" button)
 
 ### 🔐 Secure User System
-- Authentication & authorization  
-- Private interview data  
-- Secure API handling  
+
+- Authentication & authorization
+- Private interview data
+- Secure API handling
 
 ---
 
 ## 🚀 Advanced Multi-Company Features (NEW)
 
 ### 🤖 Smart Company Recommendation Engine
+
 - AI-powered analysis of your interview performance
 - Personalized company recommendations based on skill level
 - Success probability calculation for each company
@@ -63,6 +79,7 @@ If it doesn’t help you perform better in a real interview, it doesn’t belong
 - **Route:** `/advanced-features` or `/api/recommendations`
 
 ### 📅 Company Interview Calendar Integration
+
 - Track upcoming interview dates with countdown timers
 - Automatically generated preparation milestones
 - Daily practice recommendations based on days remaining
@@ -70,6 +87,7 @@ If it doesn’t help you perform better in a real interview, it doesn’t belong
 - **Route:** `/api/calendar`
 
 ### 💎 Real Interview Question Database
+
 - Crowdsourced real interview questions from actual interviews
 - Voting system (upvote/downvote) for question quality
 - Question verification workflow
@@ -79,6 +97,7 @@ If it doesn’t help you perform better in a real interview, it doesn’t belong
 - **Route:** `/api/questions`
 
 ### 🤝 Interview Buddy Matching
+
 - Find compatible study partners preparing for same companies
 - Compatibility algorithm based on target companies and skill level
 - 1-on-1 buddy connections with mock interview scheduling
@@ -86,12 +105,14 @@ If it doesn’t help you perform better in a real interview, it doesn’t belong
 - **Route:** `/api/buddy`
 
 ### 📊 Company-Specific Success Metrics
+
 - Enhanced company profiles with hiring bar benchmarks
 - Success thresholds for each interview type
 - Difficulty ratings and acceptance rates
 - Historical performance statistics
 
 ### 🎤 Speech Practice Lab (Frontend)
+
 - Real-time speech-to-text using Web Speech API
 - Live metrics: words, WPM, average sentence length, filler words
 - Coaching tips for pace and clarity
@@ -100,6 +121,7 @@ If it doesn’t help you perform better in a real interview, it doesn’t belong
 - Requires microphone permission in the browser (Chrome recommended)
 
 ### 🎬 Interview Replay System (NEW)
+
 - **Full Playback**: Review completed interviews with complete conversation history
 - **Timestamped Notes**: Add personal notes at any point with categorization (improvement, strength, mistake, learning)
 - **Smart Bookmarks**: Quick-jump to important moments in the interview
@@ -112,6 +134,7 @@ If it doesn’t help you perform better in a real interview, it doesn’t belong
 - Perfect for: Post-interview analysis, mentor feedback, peer review, progress tracking
 
 ### 🎯 AI-Powered Weakness Predictor & Attack Plan (NEW - OUT OF BOX!)
+
 - **Predictive Intelligence**: Analyzes your last 20 interviews to predict where you'll fail BEFORE your next interview
 - **Personalized Attack Plans**: 3-phase improvement strategy (Emergency Fixes → Strengthen Core → Polish & Perfect)
 - **Micro-Challenges**: 15 bite-sized, actionable tasks targeting your specific weaknesses (30-90 min each)
@@ -128,19 +151,22 @@ If it doesn’t help you perform better in a real interview, it doesn’t belong
 ## 🛠 Tech Stack
 
 ### 🎨 Frontend
-- React  
-- Tailwind CSS  
+
+- React
+- Tailwind CSS
 - Responsive UI (desktop + mobile)
 
 ### ⚙️ Backend
-- Node.js  
-- Express.js  
-- MongoDB  
-- REST APIs  
+
+- Node.js
+- Express.js
+- MongoDB
+- REST APIs
 
 ### 🤖 AI Layer
-- LLM-based interview logic  
-- Prompt-engineered evaluation criteria  
+
+- LLM-based interview logic
+- Prompt-engineered evaluation criteria
 - Structured scoring system (not random text output)
 
 ---
@@ -152,7 +178,7 @@ User
 → Backend (Express API)  
 → AI Evaluation Engine  
 → Database (MongoDB)  
-→ Feedback & Analytics  
+→ Feedback & Analytics
 
 Simple, scalable, and not overengineered.
 
@@ -161,6 +187,7 @@ Simple, scalable, and not overengineered.
 ## ⚙️ Installation & Setup
 
 ### 📦 Prerequisites
+
 - Node.js (v18+ recommended)
 - MongoDB
 - Git
@@ -168,19 +195,22 @@ Simple, scalable, and not overengineered.
 ---
 
 ### 📥 Clone the Repository
+
 git clone https://github.com/santanu-atta03/Intervyo  
 cd intervyo
 
 ---
 
 ### 🔧 Backend Setup
+
 cd backend  
 npm install  
-npm run dev  
+npm run dev
 
 ---
 
 ### 💻 Frontend Setup
+
 cd frontend  
 npm install  
 npm run dev
@@ -193,7 +223,7 @@ Create a `.env` file in the backend directory:
 
 PORT=5000  
 MONGO_URI=your_mongodb_connection_string  
-AI_API_KEY=your_ai_api_key  
+AI_API_KEY=your_ai_api_key
 
 ---
 
@@ -201,16 +231,17 @@ AI_API_KEY=your_ai_api_key
 
 This setup is for local development only and does not change the default workflows.
 
-1) Create any needed backend env values (optional). The Docker Compose config uses
-`Backend/.env.example` by default and overrides the MongoDB host.
+1. Create any needed backend env values (optional). The Docker Compose config uses
+   `Backend/.env.example` by default and overrides the MongoDB host.
 
-2) Start the stack:
+2. Start the stack:
+
 ```
 docker compose up --build
 ```
 
 Frontend: http://localhost:5173  
-Backend: http://localhost:5000  
+Backend: http://localhost:5000
 
 If you want to point the frontend to a different API URL, set
 `VITE_API_BASE_URL` before building.
@@ -219,31 +250,30 @@ If you want to point the frontend to a different API URL, set
 
 For a deeper walkthrough and rationale, see `docker_guide.md`.
 
-
 ## 🚦 Current Status
 
-- Core interview flow implemented  
-- AI-based evaluation logic working  
-- User authentication  
-- Advanced analytics (in progress)  
+- Core interview flow implemented
+- AI-based evaluation logic working
+- User authentication
+- Advanced analytics (in progress)
 - Multi-role interview templates (planned)
 
 ---
 
 ## 🎯 Use Cases
 
-- Students preparing for placements  
-- Developers preparing for technical interviews  
-- Self-assessment before real interviews  
-- Mock interview practice without human bias  
+- Students preparing for placements
+- Developers preparing for technical interviews
+- Self-assessment before real interviews
+- Mock interview practice without human bias
 
 ---
 
 ## 🧠 Design Philosophy
 
-- Realism over gimmicks  
-- Feedback over praise  
-- Skill improvement over vanity metrics  
+- Realism over gimmicks
+- Feedback over praise
+- Skill improvement over vanity metrics
 
 This platform is built to expose weaknesses, not hide them.
 

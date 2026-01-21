@@ -1,3 +1,10 @@
+import express from 'express';
+import { authenticate } from '../middlewares/auth.js';
+import User from '../models/User.model.js';
+import Interview from '../models/Interview.js';
+import InterviewSession from '../models/InterviewSession.js';
+import { Topic, Module, UserProgress, AIContentCache } from '../models/LearningHub.model.js';
+import notificationService from '../services/notificationService.js';
 import express from "express";
 import { authenticate } from "../middlewares/auth.js";
 import User from "../models/User.model.js";
@@ -487,4 +494,273 @@ router.get("/overview", authenticate, async (req, res) => {
   }
 });
 
+// ============================================
+// GET USER PROGRESS SUMMARY - Enhanced for Progress Dashboard
+// ============================================
+router.get('/progress-summary', authenticate, async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    // Get all completed interviews with detailed data
+    const allInterviews = await Interview.find({ 
+      userId,
+      status: 'completed'
+    }).select('config.domain config.subDomain config.interviewType config.difficulty performance rounds completedAt createdAt config.duration');
+
+    // Calculate total questions attempted
+    let totalQuestionsAttempted = 0;
+    let totalQuestionsSkipped = 0;
+    let totalTimeSpent = 0;
+    
+    const categoryStats = {};
+    const roleStats = {};
+    const difficultyStats = {};
+    const recentActivity = [];
+
+    allInterviews.forEach(interview => {
+      // Count questions
+      totalQuestionsAttempted += interview.performance?.questionsAnswered || 0;
+      totalQuestionsSkipped += interview.performance?.questionsSkipped || 0;
+      totalTimeSpent += interview.config?.duration || 0;
+
+      // Category breakdown (interviewType)
+      const category = interview.config?.interviewType || 'unknown';
+      if (!categoryStats[category]) {
+        categoryStats[category] = {
+          count: 0,
+          totalScore: 0,
+          questionsAttempted: 0,
+          timeSpent: 0
+        };
+      }
+      categoryStats[category].count += 1;
+      categoryStats[category].totalScore += interview.performance?.overallScore || 0;
+      categoryStats[category].questionsAttempted += interview.performance?.questionsAnswered || 0;
+      categoryStats[category].timeSpent += interview.config?.duration || 0;
+
+      // Role breakdown (domain + subDomain)
+      const role = interview.config?.domain || 'General';
+      if (!roleStats[role]) {
+        roleStats[role] = {
+          count: 0,
+          totalScore: 0,
+          questionsAttempted: 0
+        };
+      }
+      roleStats[role].count += 1;
+      roleStats[role].totalScore += interview.performance?.overallScore || 0;
+      roleStats[role].questionsAttempted += interview.performance?.questionsAnswered || 0;
+
+      // Difficulty breakdown
+      const difficulty = interview.config?.difficulty || 'medium';
+      if (!difficultyStats[difficulty]) {
+        difficultyStats[difficulty] = {
+          count: 0,
+          totalScore: 0
+        };
+      }
+      difficultyStats[difficulty].count += 1;
+      difficultyStats[difficulty].totalScore += interview.performance?.overallScore || 0;
+
+      // Recent activity
+      recentActivity.push({
+        date: interview.completedAt || interview.createdAt,
+        type: interview.config?.interviewType,
+        score: interview.performance?.overallScore || 0,
+        questionsAnswered: interview.performance?.questionsAnswered || 0
+      });
+    });
+
+    // Calculate completion rate
+    const totalQuestionsInInterviews = totalQuestionsAttempted + totalQuestionsSkipped;
+    const completionRate = totalQuestionsInInterviews > 0 
+      ? (totalQuestionsAttempted / totalQuestionsInInterviews) * 100 
+      : 0;
+
+    // Format category stats
+    const categoryProgress = Object.entries(categoryStats).map(([category, stats]) => ({
+      category,
+      questionsAttempted: stats.questionsAttempted,
+      interviewsCompleted: stats.count,
+      averageScore: stats.count > 0 ? Math.round((stats.totalScore / stats.count) * 10) / 10 : 0,
+      timeSpent: stats.timeSpent,
+      progress: Math.min(100, (stats.questionsAttempted / 50) * 100) // Assume 50 questions as 100% progress
+    }));
+
+    // Format role stats
+    const roleProgress = Object.entries(roleStats).map(([role, stats]) => ({
+      role,
+      questionsAttempted: stats.questionsAttempted,
+      interviewsCompleted: stats.count,
+      averageScore: stats.count > 0 ? Math.round((stats.totalScore / stats.count) * 10) / 10 : 0,
+      progress: Math.min(100, (stats.count / 10) * 100) // Assume 10 interviews as 100% progress
+    }));
+
+    // Format difficulty stats
+    const difficultyProgress = Object.entries(difficultyStats).map(([difficulty, stats]) => ({
+      difficulty,
+      count: stats.count,
+      averageScore: stats.count > 0 ? Math.round((stats.totalScore / stats.count) * 10) / 10 : 0
+    }));
+
+    // Sort recent activity by date
+    recentActivity.sort((a, b) => new Date(b.date) - new Date(a.date));
+    const recentAttempts = recentActivity.slice(0, 10);
+
+    res.json({
+      success: true,
+      data: {
+        overview: {
+          totalQuestionsAttempted,
+          totalQuestionsSkipped,
+          completionRate: Math.round(completionRate * 10) / 10,
+          totalTimeSpent: Math.round(totalTimeSpent),
+          totalInterviews: allInterviews.length,
+          averageScore: allInterviews.length > 0 
+            ? Math.round((allInterviews.reduce((sum, i) => sum + (i.performance?.overallScore || 0), 0) / allInterviews.length) * 10) / 10 
+            : 0
+        },
+        categoryProgress: categoryProgress.sort((a, b) => b.questionsAttempted - a.questionsAttempted),
+        roleProgress: roleProgress.sort((a, b) => b.interviewsCompleted - a.interviewsCompleted),
+        difficultyProgress: difficultyProgress,
+        recentActivity: recentAttempts
+      }
+    });
+  } catch (error) {
+    console.error('Error fetching progress summary:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch progress summary',
+      error: error.message
+    });
+  }
+});
+
+// ============================================
+// GET SAVED/BOOKMARKED QUESTIONS
+// ============================================
+router.get('/saved-questions', authenticate, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const limit = parseInt(req.query.limit) || 10;
+
+    // Get interviews with skipped questions (user might want to revisit)
+    const interviews = await Interview.find({ 
+      userId,
+      'performance.questionsSkipped': { $gt: 0 }
+    })
+      .sort({ completedAt: -1 })
+      .limit(limit)
+      .select('config rounds performance completedAt');
+
+    const savedQuestions = [];
+    
+    interviews.forEach(interview => {
+      interview.rounds?.forEach(round => {
+        round.answers?.forEach((answer, idx) => {
+          if (answer.skipped) {
+            const question = round.questions?.[idx];
+            if (question) {
+              savedQuestions.push({
+                question: question.question,
+                type: question.type,
+                difficulty: question.difficulty,
+                category: interview.config?.interviewType,
+                savedDate: answer.timestamp || interview.completedAt,
+                tags: question.tags || []
+              });
+            }
+          }
+        });
+      });
+    });
+
+    res.json({
+      success: true,
+      data: savedQuestions.slice(0, limit),
+      count: savedQuestions.length
+    });
+  } catch (error) {
+    console.error('Error fetching saved questions:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch saved questions',
+      error: error.message
+    });
+  }
+});
+
+// ============================================
+// GET WEEKLY PROGRESS CHART DATA
+// ============================================
+router.get('/weekly-progress', authenticate, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const weeksAgo = parseInt(req.query.weeks) || 4;
+    
+    const startDate = new Date();
+    startDate.setDate(startDate.getDate() - (weeksAgo * 7));
+
+    const interviews = await Interview.find({
+      userId,
+      status: 'completed',
+      completedAt: { $gte: startDate }
+    }).select('completedAt performance.overallScore performance.questionsAnswered');
+
+    // Group by week
+    const weeklyData = {};
+    const weekLabels = [];
+    
+    for (let i = weeksAgo - 1; i >= 0; i--) {
+      const weekStart = new Date();
+      weekStart.setDate(weekStart.getDate() - (i * 7));
+      weekStart.setHours(0, 0, 0, 0);
+      
+      const weekEnd = new Date(weekStart);
+      weekEnd.setDate(weekEnd.getDate() + 6);
+      weekEnd.setHours(23, 59, 59, 999);
+      
+      const weekKey = `Week ${weeksAgo - i}`;
+      weekLabels.push(weekKey);
+      
+      weeklyData[weekKey] = {
+        interviews: 0,
+        totalScore: 0,
+        questionsAnswered: 0
+      };
+      
+      interviews.forEach(interview => {
+        const interviewDate = new Date(interview.completedAt);
+        if (interviewDate >= weekStart && interviewDate <= weekEnd) {
+          weeklyData[weekKey].interviews += 1;
+          weeklyData[weekKey].totalScore += interview.performance?.overallScore || 0;
+          weeklyData[weekKey].questionsAnswered += interview.performance?.questionsAnswered || 0;
+        }
+      });
+    }
+
+    const chartData = weekLabels.map(week => ({
+      week,
+      interviews: weeklyData[week].interviews,
+      averageScore: weeklyData[week].interviews > 0 
+        ? Math.round((weeklyData[week].totalScore / weeklyData[week].interviews) * 10) / 10 
+        : 0,
+      questionsAnswered: weeklyData[week].questionsAnswered
+    }));
+
+    res.json({
+      success: true,
+      data: chartData
+    });
+  } catch (error) {
+    console.error('Error fetching weekly progress:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch weekly progress',
+      error: error.message
+    });
+  }
+});
+
+export default router;
 export default router;
