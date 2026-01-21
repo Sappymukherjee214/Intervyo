@@ -32,6 +32,7 @@ import AboutUs from './pages/AboutUs';
 import ContactUs from './pages/ContactUs';
 import PracticeLab from './pages/PracticeLab';
 import Career from './pages/Career';
+import ProgressDashboard from './components/Dashboard/ProgressDashboard';
 
 function App() {
   return (
@@ -60,6 +61,15 @@ function App() {
           element={
             <ProtectedRoute>
               <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/progress"
+          element={
+            <ProtectedRoute>
+              <ProgressDashboard />
             </ProtectedRoute>
           }
         />
