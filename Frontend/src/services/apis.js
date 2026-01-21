@@ -22,6 +22,18 @@ export const profileEndpoints = {
   DELETE_PROFILE_PICTURE_API: `${BASE_URL}/profile/picture`,
 };
 
+export const dashboardEndpoints = {
+  GET_DASHBOARD_STATS_API: `${BASE_URL}/dashboard/stats`,
+  GET_RECENT_INTERVIEWS_API: `${BASE_URL}/dashboard/interviews/recent`,
+  GET_LEARNING_PROGRESS_API: `${BASE_URL}/dashboard/learning-progress`,
+  GET_DASHBOARD_OVERVIEW_API: `${BASE_URL}/dashboard/overview`,
+  UPDATE_STREAK_API: `${BASE_URL}/dashboard/update-streak`,
+  AWARD_XP_API: `${BASE_URL}/dashboard/award-xp`,
+  GET_BADGES_API: `${BASE_URL}/dashboard/badges`,
+  GET_PROGRESS_SUMMARY_API: `${BASE_URL}/dashboard/progress-summary`,
+  GET_SAVED_QUESTIONS_API: `${BASE_URL}/dashboard/saved-questions`,
+  GET_WEEKLY_PROGRESS_API: `${BASE_URL}/dashboard/weekly-progress`,
+};
 
 export const interviewEndpoints = {
   // Match your backend routes
