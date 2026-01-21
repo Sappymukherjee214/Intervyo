@@ -320,8 +320,8 @@ export default function Dashboard() {
 
   const quickActions = [
     { title: 'Start Interview', icon: Target, color: 'from-blue-500 to-cyan-500', description: 'Begin practice session', action: () => navigate('/interview-setup') },
+    { title: 'My Progress', icon: BarChart3, color: 'from-purple-500 to-pink-500', description: 'View detailed progress', action: () => navigate('/progress') },
     { title: 'Analytics', icon: TrendingUp, color: 'from-violet-500 to-purple-500', description: 'View your stats', action: () => navigate('/analytics') },
-    { title: 'Review History', icon: BarChart3, color: 'from-emerald-500 to-green-500', description: 'Analyze performance', action: () => navigate('/history') },
     { title: 'Leaderboard', icon: Trophy, color: 'from-yellow-500 to-orange-500', description: 'View rankings', action: () => navigate('/leaderboard') }
   ];
 
@@ -676,6 +676,56 @@ export default function Dashboard() {
               </div>
             );
           })}
+        </div>
+
+        {/* Progress Dashboard Highlight Banner */}
+        <div className="mb-6 sm:mb-8">
+          <div className="relative group">
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 rounded-xl sm:rounded-2xl blur-xl opacity-50 group-hover:opacity-75 transition"></div>
+            <div 
+              onClick={() => navigate('/progress')}
+              className="relative bg-gradient-to-br from-gray-800/90 to-gray-900/90 backdrop-blur-xl rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-gray-700/50 shadow-2xl cursor-pointer transform hover:scale-[1.02] transition-all"
+            >
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-purple-500 via-pink-500 to-blue-500 rounded-xl flex items-center justify-center shadow-lg shadow-purple-500/50 flex-shrink-0">
+                    <BarChart3 className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-lg sm:text-xl font-bold text-white mb-1 flex items-center gap-2">
+                      Track Your Progress Journey
+                      <span className="text-xs sm:text-sm px-2 py-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full text-white font-semibold">
+                        New
+                      </span>
+                    </h3>
+                    <p className="text-sm sm:text-base text-gray-300 mb-2">
+                      View detailed analytics, category breakdowns, weekly activity, and personalized insights
+                    </p>
+                    <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs sm:text-sm text-gray-400">
+                      <span className="flex items-center gap-1">
+                        <Target className="w-4 h-4 text-green-400" />
+                        Goal Tracking
+                      </span>
+                      <span className="text-gray-600">•</span>
+                      <span className="flex items-center gap-1">
+                        <TrendingUp className="w-4 h-4 text-blue-400" />
+                        Performance Trends
+                      </span>
+                      <span className="text-gray-600">•</span>
+                      <span className="flex items-center gap-1">
+                        <Brain className="w-4 h-4 text-purple-400" />
+                        Category Insights
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <button className="px-4 py-2 sm:px-6 sm:py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg sm:rounded-xl font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition flex items-center gap-2 whitespace-nowrap">
+                  View Dashboard
+                  <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition" />
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Quick Actions */}
